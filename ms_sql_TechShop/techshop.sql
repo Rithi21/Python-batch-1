@@ -119,13 +119,15 @@ UPDATE Products SET Price = Price+(Price * 0.10) ;
 
 select * from Products;
 
---5. Write an SQL query to delete a specific order and its associated order details from the "Orders" and "OrderDetails" tables. Allow users to input the order ID as a parameter.
+--5. Write an SQL query to delete a specific order and its associated order details from the "Orders" and "OrderDetails" tables. Allow users to input the order ID as a parameter.
+
 delete from OrderDetails WHERE OrderID = 1;
 delete from Orders WHERE OrderID = 1;
 --6.Write an SQL query to insert a new order into the "Orders" table. Include the customer ID, order date, and any other necessary information.
 INSERT INTO Orders (OrderID,CustomerID, OrderDate, TotalAmount) VALUES (11,11, '2025-03-21', 35000);
 
---7. Write an SQL query to update the contact information (e.g., email and address) of a specific customer in the "Customers" table. Allow users to input the customer ID and new contact information.update Customers SET Email = 'john21@gmail.com', Address = '18,9th cross st, Chennai' WHERE CustomerID = 2;
+--7. Write an SQL query to update the contact information (e.g., email and address) of a specific customer in the "Customers" table. Allow users to input the customer ID and new contact information.
+update Customers SET Email = 'john21@gmail.com', Address = '18,9th cross st, Chennai' WHERE CustomerID = 2;
 
 select * from Customers;
 --8.Write an SQL query to recalculate and update the total cost of each order in the "Orders" table based on the prices and quantities in the "OrderDetails" table
@@ -135,7 +137,8 @@ update Orders SET TotalAmount = (SELECT SUM(o.Quantity * p.Price)
 );
 select * from Orders
 
---9. Write an SQL query to delete all orders and their associated order details for a specific customer from the "Orders" and "OrderDetails" tables. Allow users to input the customer ID as a parameter.delete from OrderDetails where OrderID IN (select OrderID from Orders where CustomerID = 3);
+--9. Write an SQL query to delete all orders and their associated order details for a specific customer from the "Orders" and "OrderDetails" tables. Allow users to input the customer ID as a parameter.
+delete from OrderDetails where OrderID IN (select OrderID from Orders where CustomerID = 3);
 
 delete from Orders where CustomerID = 3;
 
@@ -144,14 +147,21 @@ select * from Orders;
 --10. Write an SQL query to insert a new electronic gadget product into the "Products" table,including product name, category, price, and any other relevant details.
 INSERT INTO Products (ProductID,ProductName, Description, Price)VALUES (11,'Projector',  'Latest digital Light Processing', 150000);
 select * from Products;
---11. Write an SQL query to update the status of a specific order in the "Orders" table (e.g., from "Pending" to "Shipped"). Allow users to input the order ID and the new status.ALTER TABLE Orders ADD Status VARCHAR(20);update Orders 
+--11. Write an SQL query to update the status of a specific order in the "Orders" table (e.g., from "Pending" to "Shipped"). Allow users to input the order ID and the new status.
+ALTER TABLE Orders ADD Status VARCHAR(20);
+update Orders 
 SET Status = 
     CASE 
         WHEN OrderId IN (2, 4, 6, 8, 9) THEN 'Pending'
         WHEN OrderId IN (3, 5, 7, 10,11) THEN 'Shipped'
     END
-WHERE OrderId BETWEEN 1 AND 11;
-select * from Orders;--12. Write an SQL query to calculate and update the number of orders placed by each customer in the "Customers" table based on the data in the "Orders" table.
+WHERE OrderId BETWEEN 1 AND 11;
+
+select * from Orders;
+
+
+--12. Write an SQL query to calculate and update the number of orders placed by each customer in the "Customers" table based on the data in the "Orders" table.
+
 ALTER TABLE Customers ADD TotalOrders INT default 0;
 update Customers SET TotalOrders = ( Select COUNT(*) from Orders where Orders.CustomerID = Customers.CustomerID
 );
